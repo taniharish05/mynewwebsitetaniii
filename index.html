@@ -2,14 +2,41 @@
 <html>
 <head>
     <title>Login</title>
+
+    <style>
+        body {
+            background: linear-gradient(to right, #1e3c72, #8acbe3);
+            font-family: Arial;
+            text-align: center;
+            margin-top: 100px;
+            color: #180202;
+        }
+
+        input {
+            padding: 8px;
+            width: 250px;
+        }
+
+        button {
+            padding: 8px 20px;
+            background-color: #1e3c72;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #16325c;
+        }
+
+        a {
+            text-decoration: none;
+            color: darkblue;
+        }
+    </style>
 </head>
-<style>
-    body {
-        background: linear-gradient(to right, #1e3c72, #8acbe3);
-        color: #180202;
-    }
-</style>
-<body style="font-family: Arial; text-align:center; margin-top:100px;">
+
+<body>
 
     <h2>Login</h2>
 
@@ -37,7 +64,7 @@ function loginUser() {
 
     if (user.password === password) {
         alert("Login Successful!");
-        window.location.href = "mainpg.html";  // create this page
+        window.location.href = "mainpg.html";   // ✅ Correct file name
     } else {
         alert("Incorrect Password!");
     }
