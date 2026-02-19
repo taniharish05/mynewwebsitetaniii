@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Natural Disaster Quiz - Page 1</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .quiz-box {
+            background: #1e293b;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+        }
+
+        h2 { color: #38bdf8; }
+
+        .question { margin: 20px 0; text-align: left; }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            border: none;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="quiz-box">
+    <h2>🌍 Natural Disaster Quiz (1/2)</h2>
+
+    <!-- Questions 1 to 7 -->
+       <div class="question">
+        <p>1. Which disaster is caused by tectonic plate movement?</p>
+        <input type="radio" name="q1" value="earthquake"> Earthquake<br>
+        <input type="radio" name="q1" value="flood"> Flood<br>
+        <input type="radio" name="q1" value="hurricane"> Hurricane<br>
+    </div>
+
+    <div class="question">
+        <p>2. Which disaster involves rising water levels?</p>
+        <input type="radio" name="q2" value="flood"> Flood<br>
+        <input type="radio" name="q2" value="earthquake"> Earthquake<br>
+        <input type="radio" name="q2" value="volcano"> Volcano<br>
+    </div>
+
+    <div class="question">
+        <p>3.If you are outdoors, you should move to:</p>
+        <input type="radio" name="q3" value="A crowded area"> A crowded area<br>
+        <input type="radio" name="q3" value="Under a bridge"> Under a bridge<br>
+        <input type="radio" name="q3" value="An open area away from buildings and power lines"> An open area away from buildings and power lines<br>
+    </div>
+     <div class="question">
+        <p>4.You are inside a classroom during an earthquake. The shaking starts suddenly. There are windows on one side, heavy bookshelves on the other, and desks in the center. What is the safest action?</p>
+        <input type="radio" name="q4" value="Take cover under a sturdy desk, protect your head and neck, and stay away from windows and heavy furniture">Take cover under a sturdy desk, protect your head and neck, and stay away from windows and heavy furniture<br>
+        <input type="radio" name="q4" value="Stand near the window to observe outside"> Stand near the window to observe outside<br>
+        <input type="radio" name="q4" value="Run outside immediately"> Run outside immediately<br>
+    </div>
+    <div class="question">
+        <p>5.During an earthquake, a person is driving and sees a bridge nearby. The road is shaking strongly. What should the driver do?</p>
+        <input type="radio" name="q5" value="Stop under the bridge for protection"> Stop under the bridge for protection<br>
+        <input type="radio" name="q5" value="Pull over to a clear, safe area away from bridges and power lines, and stay inside the vehicle"> Pull over to a clear, safe area away from bridges and power lines, and stay inside the vehicle<br>
+        <input type="radio" name="q5" value="Get out of the car immediately"> Get out of the car immediately<br>
+    </div>
+    <div class="question">
+        <p>6.Why should utilities be turned off during floods? </p>
+        <input type="radio" name="q6" value="To prevent fire and electrocution"> To prevent fire and electrocution <br>
+        <input type="radio" name="q6" value="To save electricity"> To save electricity <br>
+        <input type="radio" name="q6" value="To cool the house"> To cool the house <br>
+    </div>
+    <div class="question">
+        <p>7.Heavy rainfall is predicted in your area. Your house has a basement and valuable furniture on the ground floor. What should you do before flooding begins?</p>
+        <input type="radio" name="q7" value="Ignore the warning"> Ignore the warning <br>
+        <input type="radio" name="q7" value="Seal basement walls, clear drains, prepare an emergency kit, and raise furniture"> Seal basement walls, clear drains, prepare an emergency kit, and raise furniture <br>
+        <input type="radio" name="q7" value="Move everything to the basement"> Move everything to the basement<br>
+    </div>
+    
+    <!-- COPY YOUR Q1 to Q7 EXACTLY HERE (same as your code) -->
+
+    <!-- I am keeping only example structure below -->
+
+    <!-- Keep your Q1–Q7 unchanged -->
+
+    <button onclick="goToNext()">Next Page</button>
+</div>
+
+<script>
+function goToNext() {
+    let score = 0;
+
+    let q1 = document.querySelector('input[name="q1"]:checked');
+    let q2 = document.querySelector('input[name="q2"]:checked');
+    let q3 = document.querySelector('input[name="q3"]:checked');
+    let q4 = document.querySelector('input[name="q4"]:checked');
+    let q5 = document.querySelector('input[name="q5"]:checked');
+    let q6 = document.querySelector('input[name="q6"]:checked');
+    let q7 = document.querySelector('input[name="q7"]:checked');
+
+    if(q1 && q1.value === "earthquake") score++;
+    if(q2 && q2.value === "flood") score++;
+    if(q3 && q3.value === "An open area away from buildings and power lines") score++;
+    if(q4 && q4.value === "Take cover under a sturdy desk, protect your head and neck, and stay away from windows and heavy furniture") score++;
+    if(q5 && q5.value === "Pull over to a clear, safe area away from bridges and power lines, and stay inside the vehicle") score++;
+    if(q6 && q6.value === "To prevent fire and electrocution") score++;
+    if(q7 && q7.value === "Seal basement walls, clear drains, prepare an emergency kit, and raise furniture") score++;
+
+    // Save score in localStorage
+    localStorage.setItem("quizScore", score);
+
+    // Move to page 2
+    window.location.href = "quiz2.html";
+}
+</script>
+
+</body>
+</html>
