@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Natural Disaster Quiz - Page 2</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .quiz-box {
+            background: #1e293b;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+        }
+
+        h2 { color: #38bdf8; }
+
+        .question { margin: 20px 0; text-align: left; }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            border: none;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="quiz-box">
+    <h2>🌍 Natural Disaster Quiz (2/2)</h2>
+
+     <div class="question">
+        <p>8.What should be included in a cyclone emergency kit?</p>
+        <input type="radio" name="q8" value="Battery-operated radio, flashlight, spare batteries, food, water, and medicines"> Battery-operated radio, flashlight, spare batteries, food, water, and medicines<br>
+        <input type="radio" name="q8" value="Furniture"> Furniture<br>
+        <input type="radio" name="q8" value="Clothes and Mobile phone charger"> Clothes and Mobile phone charger <br>
+    </div>
+    <div class="question">
+        <p>9.You hear that a cyclone will hit your area in 12 hours. What is the best preparation plan?</p>
+        <input type="radio" name="q9" value="Sleep and ignore the warning"> Sleep and ignore the warning<br>
+        <input type="radio" name="q9" value="Wait until the storm starts"> Wait until the storm starts<br>
+        <input type="radio" name="q9" value="Secure windows and doors, remove loose items, prepare emergency kit, fill vehicle fuel, and identify a safe shelter"> Secure windows and doors, remove loose items, prepare emergency kit, fill vehicle fuel, and identify a safe shelter<br>
+    </div>
+    <div class="question">
+        <p>10.Thick smoke is covering your area, and evacuation orders have been announced. Before leaving, what should you do?</p>
+        <input type="radio" name="q10" value="Close windows, doors, and vents, turn on lights, and evacuate immediately"> Close windows, doors, and vents, turn on lights, and evacuate immediately<br>
+        <input type="radio" name="q10" value="Leave all windows open"> Leave all windows open<br>
+        <input type="radio" name="q10" value="Stay inside until the fire reaches"> Stay inside until the fire reaches<br>
+
+    </div>
+    <div class="question">
+        <p>11.What should you do if authorities issue an evacuation order during a wildfire?</p>
+        <input type="radio" name="q11" value="Stay on the roof"> Stay on the roof<br>
+        <input type="radio" name="q11" value="Wait and see if the fire comes closer"> Wait and see if the fire comes closer<br>
+        <input type="radio" name="q11" value="Follow the evacuation order immediately"> Follow the evacuation order immediately<br>
+    </div>
+    <div class="question">
+        <p>12.what is a powerful rotating storm with strong winds and heavy rain.?</p>
+        <input type="radio" name="q12" value="earthquake"> Earthquake<br>
+        <input type="radio" name="q12" value="cyclone"> Cyclone<br>
+        <input type="radio" name="q12" value="hurricane"> Hurricane<br>
+    </div>
+    <div class="question">
+        <p>13.What should you wear during a wildfire emergency?</p>
+        <input type="radio" name="q13" value="Long sleeves, long pants, and shoes"> Long sleeves, long pants, and shoes<br>
+        <input type="radio" name="q13" value="Party clothes"> Party clothes<br>
+        <input type="radio" name="q13" value="Shorts and slippers"> Shorts and slippers<br>
+    </div>
+    <div class="question">
+        <p>14.what is an uncontrolled fire spreading through vegetation.</p>
+        <input type="radio" name="q14" value="earthquake"> Earthquake<br>
+        <input type="radio" name="q14" value="flood"> Flood<br>
+        <input type="radio" name="q14" value="wildfire"> Wildfire<br>
+    </div>
+    <div class="question">
+        <p>15.What should you do during an earthquake?</p>
+        <input type="radio" name="q15" value="Use the elevator"> Use the elevator<br>
+        <input type="radio" name="q15" value="Drop, Cover, and Hold On"> Drop, Cover, and Hold On<br>
+        <input type="radio" name="q15" value="Run towards windows"> Run towards windows<br>
+    </div>
+
+
+    <button onclick="finishQuiz()">Submit Quiz</button>
+    <p id="result"></p>
+</div>
+
+<script>
+function finishQuiz() {
+    let score = parseInt(localStorage.getItem("quizScore")) || 0;
+
+    let q8 = document.querySelector('input[name="q8"]:checked');
+    let q9 = document.querySelector('input[name="q9"]:checked');
+    let q10 = document.querySelector('input[name="q10"]:checked');
+    let q11 = document.querySelector('input[name="q11"]:checked');
+    let q12 = document.querySelector('input[name="q12"]:checked');
+    let q13 = document.querySelector('input[name="q13"]:checked');
+    let q14 = document.querySelector('input[name="q14"]:checked');
+    let q15 = document.querySelector('input[name="q15"]:checked');
+
+    if(q8 && q8.value === "Battery-operated radio, flashlight, spare batteries, food, water, and medicines") score++;
+    if(q9 && q9.value === "Secure windows and doors, remove loose items, prepare emergency kit, fill vehicle fuel, and identify a safe shelter") score++;
+    if(q10 && q10.value === "Close windows, doors, and vents, turn on lights, and evacuate immediately") score++;
+    if(q11 && q11.value === "Follow the evacuation order immediately") score++;
+    if(q12 && q12.value === "cyclone") score++;
+    if(q13 && q13.value === "Long sleeves, long pants, and shoes") score++;
+    if(q14 && q14.value === "wildfire") score++;
+    if(q15 && q15.value === "Drop, Cover, and Hold On") score++;
+
+    document.getElementById("result").innerHTML =
+        " Your Final Score: " + score + " / 15";
+
+    // Clear storage
+    localStorage.removeItem("quizScore");
+}
+</script>
+
+</body>
+</html>
