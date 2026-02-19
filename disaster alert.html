@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Disaster Alert System</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            color: white;
+            padding: 40px;
+        }
+
+        .box {
+            background: rgba(0,0,0,0.4);
+            padding: 30px;
+            border-radius: 15px;
+            display: inline-block;
+            width: 350px;
+        }
+
+        input {
+            padding: 10px;
+            width: 70%;
+            border-radius: 5px;
+            border: none;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background: orange;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+
+        .alert-box {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .danger {
+            background-color: red;
+        }
+
+        .warning {
+            background-color: orange;
+        }
+
+        .safe {
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🌍 Natural Disaster Detection & Alert</h1>
+
+    <div class="box">
+        <input type="text" id="city" placeholder="Enter City">
+        <button onclick="checkWeather()">Check</button>
+
+        <div id="result"></div>
+        <div id="alert"></div>
+    </div>
+
+<script>
+
+async function checkWeather() {
+
+    const city = document.getElementById("city").value;
+    const apiKey = "6cdab2bdd9feeb2e20784aff98e831de";  // 🔴 Replace this
+
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.cod !== 200) {
+            document.getElementById("result").innerHTML = "❌ City not found";
+            return;
+        }
+
+        const temp = data.main.temp;
+        const wind = data.wind.speed;
+        const weather = data.weather[0].main;
+
+        document.getElementById("result").innerHTML = `
+            🌍 City: ${data.name} <br>
+            🌡️ Temp: ${temp} °C <br>
+            💨 Wind: ${wind} m/s <br>
+            ☁️ Condition: ${weather}
+        `;
+
+        detectDisaster(temp, wind, weather);
+
+    } catch (error) {
+        document.getElementById("result").innerHTML = "⚠️ Error fetching data";
+    }
+}
+
+function detectDisaster(temp, wind, weather) {
+
+    let alertBox = document.getElementById("alert");
+
+    // Heatwave
+    if (temp > 40) {
+        alertBox.innerHTML = "🔥 HEATWAVE ALERT! Stay indoors & drink water.";
+        alertBox.className = "alert-box danger";
+        alert("🔥 HEATWAVE ALERT!");
+    }
+
+    // Cyclone Warning
+    else if (wind > 20) {
+        alertBox.innerHTML = "🌪️ CYCLONE WARNING! Avoid travel & stay safe.";
+        alertBox.className = "alert-box danger";
+        alert("🌪️ CYCLONE WARNING!");
+    }
+
+    // Flood Warning
+    else if (weather.toLowerCase().includes("rain")) {
+        alertBox.innerHTML = "🌧️ FLOOD ALERT! Heavy rain detected.";
+        alertBox.className = "alert-box warning";
+        alert("🌧️ FLOOD ALERT!");
+    }
+
+    // Safe Condition
+    else {
+        alertBox.innerHTML = "✅ Weather is normal. No disaster detected.";
+        alertBox.className = "alert-box safe";
+    }
+}
+
+</script>
+
+</body>
+</html>
