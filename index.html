@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<style>
+    body {
+        background: linear-gradient(to right, #1e3c72, #8acbe3);
+        color: #180202;
+    }
+</style>
+<body style="font-family: Arial; text-align:center; margin-top:100px;">
+
+    <h2>Login</h2>
+
+    <form onsubmit="return loginUser()">
+        <input type="email" id="email" placeholder="Email" required><br><br>
+        <input type="password" id="password" placeholder="Password" required><br><br>
+        <button type="submit">Login</button>
+    </form>
+
+    <p><a href="signup.html">Create New Account</a></p>
+
+<script>
+function loginUser() {
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+
+    let storedUser = localStorage.getItem(email);
+
+    if (!storedUser) {
+        alert("User not found! Please sign up.");
+        return false;
+    }
+
+    let user = JSON.parse(storedUser);
+
+    if (user.password === password) {
+        alert("Login Successful!");
+        window.location.href = "mainpage.html";  // create this page
+    } else {
+        alert("Incorrect Password!");
+    }
+
+    return false;
+}
+</script>
+
+</body>
+</html>
