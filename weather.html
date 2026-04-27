@@ -1,87 +1,106 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Live Weather - Disaster Preparedness</title>
+    <title>Live Weather - Pyodide</title>
+
+    <!-- Load Pyodide -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: Arial;
             background: linear-gradient(to right, #4facfe, #85b6e0);
             text-align: center;
             padding: 50px;
             color: white;
         }
 
-        .weather-box {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 30px;
-            border-radius: 15px;
+        .box {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 10px;
             display: inline-block;
-            width: 300px;
         }
 
         input {
             padding: 10px;
-            width: 70%;
             border-radius: 5px;
             border: none;
         }
 
         button {
-            padding: 10px 15px;
-            border: none;
+            padding: 10px;
             border-radius: 5px;
-            background-color: #ff9800;
+            border: none;
+            background: orange;
             color: white;
             cursor: pointer;
         }
-
-        button:hover {
-            background-color: #e68900;
-        }
-
-        h2 {
-            margin-top: 20px;
-        }
     </style>
 </head>
+
 <body>
 
-    <h1>🌦️ Live Weather Report</h1>
+<h1>🌦️ Live Weather Report</h1>
 
-    <div class="weather-box">
-        <input type="text" id="city" placeholder="Enter City Name">
-        <button onclick="getWeather()">Check</button>
+<div class="box">
+    <input type="text" id="city" placeholder="Enter City">
+    <button onclick="getWeather()">Check</button>
 
-        <h2 id="result"></h2>
-    </div>
+    <h2 id="result"></h2>
+</div>
 
-    <script>
-        async function getWeather() {
-            const city = document.getElementById("city").value;
+<script>
+let pyodideReady = loadPyodide();
 
-            const apiKey = "6cdab2bdd9feeb2e20784aff98e831de"; // 🔴 Paste your API key here
+async function getWeather() {
+    const city = document.getElementById("city").value;
+    const resultBox = document.getElementById("result");
 
-            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+    if (city === "") {
+        resultBox.innerHTML = "⚠️ Please enter a city!";
+        return;
+    }
 
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
+    const pyodide = await pyodideReady;
 
-                if (data.cod === 200) {
-                    document.getElementById("result").innerHTML =
-                        `🌍 City: ${data.name} <br>
-                         🌡️ Temperature: ${data.main.temp} °C <br>
-                         ☁️ Condition: ${data.weather[0].description} <br>
-                         💨 Wind Speed: ${data.wind.speed} m/s`;
-                } else {
-                    document.getElementById("result").innerHTML = "❌ City not found!";
-                }
-            } catch (error) {
-                document.getElementById("result").innerHTML = "⚠️ Error fetching weather data";
-            }
-        }
-    </script>
+    const code = `
+import json
+from pyodide.http import open_url
+
+city = "${city}"
+api_key = "6cdab2bdd9feeb2e20784aff98e831de"
+
+url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
+
+try:
+    response = open_url(url)
+    data = json.loads(response.read())
+
+    if data["cod"] == 200:
+        result = f"""
+🌍 City: {data['name']}
+🌡️ Temperature: {data['main']['temp']} °C
+☁️ Condition: {data['weather'][0]['description']}
+💨 Wind Speed: {data['wind']['speed']} m/s
+"""
+    else:
+        result = "❌ City not found!"
+
+except:
+    result = "⚠️ Error fetching data"
+
+result
+`;
+
+    try {
+        let output = await pyodide.runPythonAsync(code);
+        resultBox.innerText = output;
+    } catch {
+        resultBox.innerText = "Error running Python";
+    }
+}
+</script>
 
 </body>
 </html>
-
