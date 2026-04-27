@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Did You Know</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #1e3c72, #2a5298, #6dd5fa); /* SAME AS MAIN PAGE */
+    color: white;
+    text-align: center;
+}
+
+/* HEADER */
+header {
+    padding: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* GRID: 2 PER ROW */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* CARD */
+.flip-card {
+    width: 220px;
+    height: 220px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.flip-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+/* CLICK ONLY */
+.flip-card.active .flip-inner {
+    transform: rotateY(180deg);
+}
+
+/* FRONT & BACK */
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    padding: 15px;
+    backface-visibility: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* FRONT */
+.card-front {
+    background: linear-gradient(135deg, #3864b4, #17253e);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* BACK */
+.card-back {
+    background: linear-gradient(135deg,#3864b4, #315187);
+    color: white;
+    transform: rotateY(180deg);
+    font-size: 14px;
+    text-align: left;
+}
+
+.card-back ul {
+    padding-left: 18px;
+    color: #e2e8f0;
+}
+
+h3 {
+    text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<header>💡 Did You Know?</header>
+
+<div class="card-container">
+
+    <!-- EARTHQUAKE -->
+    <div class="flip-card" onclick="flipCard(this)">
+        <div class="flip-inner">
+            <div class="card-front">
+                <h3>🌍 Earthquake</h3>
+            </div>
+            <div class="card-back">
+                <ul>
+                    <li>Can change Earth's rotation</li>
+                    <li>Animals sense them early</li>
+                    <li>Aftershocks last for days</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOOD -->
+    <div class="flip-card" onclick="flipCard(this)">
+        <div class="flip-inner">
+            <div class="card-front">
+                <h3>🌊 Flood</h3>
+            </div>
+            <div class="card-back">
+                <ul>
+                    <li>15 cm water can knock you down</li>
+                    <li>Floodwater carries bacteria</li>
+                    <li>Can occur without rainfall</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- CYCLONE -->
+    <div class="flip-card" onclick="flipCard(this)">
+        <div class="flip-inner">
+            <div class="card-front">
+                <h3>🌪 Cyclone</h3>
+            </div>
+            <div class="card-back">
+                <ul>
+                    <li>Has a calm eye in center</li>
+                    <li>Eye wall is most dangerous</li>
+                    <li>Causes storm surge</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- WILDFIRE -->
+    <div class="flip-card" onclick="flipCard(this)">
+        <div class="flip-inner">
+            <div class="card-front">
+                <h3>🔥 Wildfire</h3>
+            </div>
+            <div class="card-back">
+                <ul>
+                    <li>Creates its own weather</li>
+                    <li>Smoke travels long distances</li>
+                    <li>Some plants need fire to grow</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function flipCard(selectedCard) {
+    let cards = document.querySelectorAll(".flip-card");
+
+    cards.forEach(card => {
+        if (card !== selectedCard) {
+            card.classList.remove("active");
+        }
+    });
+
+    selectedCard.classList.toggle("active");
+}
+</script>
+
+</body>
+</html>
