@@ -23,6 +23,10 @@
         h2 { color: #38bdf8; }
 
         .question { margin: 20px 0; text-align: left; }
+          .button:hover {
+            background-color: #092577;
+            transform: scale(1.05);
+        }
 
         button {
             margin-top: 20px;
@@ -98,7 +102,7 @@
     </div>
 
 
-    <button onclick="finishQuiz()">Submit Quiz</button>
+    <button onclick="finishQuiz()" class="button">Submit Quiz</button>
     <p id="result"></p>
 </div>
 
@@ -124,11 +128,55 @@ function finishQuiz() {
     if(q14 && q14.value === "wildfire") score++;
     if(q15 && q15.value === "Drop, Cover, and Hold On") score++;
 
-    document.getElementById("result").innerHTML =
-        " Your Final Score: " + score + " / 15";
+    // 🎯 LEVEL LOGIC (out of 15)
+    let level = "";
+    let badge = "";
+    let reaction = "";
 
-    // Clear storage
-    localStorage.removeItem("quizScore");
+    if(score <= 5) {
+        level = "Beginner";
+        badge = "🥉 Survivor Badge";
+        reaction = "😐 You need more awareness about disasters.";
+    }
+    else if(score <= 10) {
+        level = "Intermediate";
+        badge = "🥈 Protector Badge";
+        reaction = "🙂 Good job! You have decent knowledge.";
+    }
+    else {
+        level = "Expert";
+        badge = "🥇 Disaster Master Badge";
+        reaction = "🔥 Excellent! You are highly prepared.";
+    }
+
+    // 🔥 SAVE EVERYTHING
+    localStorage.setItem("finalScore", score);
+    localStorage.setItem("level", level);
+    localStorage.setItem("badge", badge);
+    localStorage.setItem("reaction", reaction);
+
+    displayResult();
+}
+
+function displayResult() {
+    let score = localStorage.getItem("finalScore");
+    let level = localStorage.getItem("level");
+    let badge = localStorage.getItem("badge");
+    let reaction = localStorage.getItem("reaction");
+
+    document.getElementById("result").innerHTML = `
+        <h2>🎯 Final Score: ${score} / 15</h2>
+        <h3>🏆 Level: ${level}</h3>
+        <h3>${badge}</h3>
+        <h2>${reaction}</h2>
+    `;
+}
+
+// 👉 Auto show saved badge on reload
+window.onload = function() {
+    if(localStorage.getItem("badge")) {
+        displayResult();
+    }
 }
 </script>
 
