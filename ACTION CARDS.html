@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learning Modules</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #1e3c72,#3b5998, #6dd5fa); /* MAIN PAGE BG */
+    color: white;
+    text-align: center;
+}
+
+/* HEADER */
+header {
+    padding: 25px;
+}
+
+h1 {
+    color: #ffffff;
+}
+
+h2 {
+    color: #dbeafe;
+}
+
+/* CARD CONTAINER */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* CARD */
+.flip-card {
+    width: 220px;
+    height: 200px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+/* CLICK FLIP (NO HOVER) */
+.flip-card.active .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+/* FRONT & BACK */
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    backface-visibility: hidden;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* FRONT */
+.flip-card-front {
+    background: linear-gradient(135deg, #3864b4, #496ca9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* BACK */
+.flip-card-back {
+    background: linear-gradient(135deg, #3864b4, #4d73b6);
+    color: white;
+    transform: rotateY(180deg);
+    text-align: left;
+    font-size: 14px;
+}
+
+.flip-card-back ul {
+    padding-left: 18px;
+    color: #e2e8f0;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>📚 Learning Modules</h1>
+<p>Explore disaster topics interactively</p>
+</header>
+
+<!-- CARDS -->
+<div class="card-container">
+
+    <!-- Earthquake -->
+    <div class="flip-card" onclick="flipCard(this)">
+        <div class="flip-card-inner">
+            <div class="flip-card-front">
+                <h3>🌍 Earthquake</h3>
+                <p>Tap to explore</p>
+            </div>
+            <div class="flip-card-back">
+                <p>Earthquakes are caused by tectonic plate movement.</p>
+                <ul>
+                    <li>Drop, Cover, Hold</li>
+                    <li>Avoid windows</li>
+                    <li>Move to open area</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Flood -->
+    <div class="flip-card" onclick="flipCard(this)">
+        <div class="flip-card-inner">
+            <div class="flip-card-front">
+                <h3>🌊 Flood</h3>
+                <p>Tap to explore</p>
+            </div>
+            <div class="flip-card-back">
+                <p>Floods occur due to excess water overflow.</p>
+                <ul>
+                    <li>Move to higher ground</li>
+                    <li>Avoid walking in water</li>
+                    <li>Turn off electricity</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cyclone -->
+    <div class="flip-card" onclick="flipCard(this)">
+        <div class="flip-card-inner">
+            <div class="flip-card-front">
+                <h3>🌪 Cyclone</h3>
+                <p>Tap to explore</p>
+            </div>
+            <div class="flip-card-back">
+                <p>Cyclones form over warm ocean waters.</p>
+                <ul>
+                    <li>Stay indoors</li>
+                    <li>Secure loose objects</li>
+                    <li>Follow alerts</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wildfire -->
+    <div class="flip-card" onclick="flipCard(this)">
+        <div class="flip-card-inner">
+            <div class="flip-card-front">
+                <h3>🔥 Wildfire</h3>
+                <p>Tap to explore</p>
+            </div>
+            <div class="flip-card-back">
+                <p>Wildfires spread quickly in dry conditions.</p>
+                <ul>
+                    <li>Clear dry vegetation</li>
+                    <li>Evacuate early</li>
+                    <li>Wear protective clothing</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function flipCard(selectedCard) {
+    let cards = document.querySelectorAll(".flip-card");
+
+    cards.forEach(card => {
+        if (card !== selectedCard) {
+            card.classList.remove("active");
+        }
+    });
+
+    selectedCard.classList.toggle("active");
+}
+</script>
+
+</body>
+</html>
