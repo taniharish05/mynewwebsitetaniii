@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Disaster Alert System - Pyodide</title>
+
+    <!-- Load Pyodide -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            color: white;
+            padding: 40px;
+        }
+
+        .box {
+            background: rgba(0,0,0,0.4);
+            padding: 30px;
+            border-radius: 15px;
+            display: inline-block;
+            width: 350px;
+        }
+
+        input {
+            padding: 10px;
+            width: 70%;
+            border-radius: 5px;
+            border: none;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background: orange;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+
+        .alert-box {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .danger { background-color: red; }
+        .warning { background-color: orange; }
+        .safe { background-color: green; }
+    </style>
+</head>
+
+<body>
+
+<h1>🌍 Natural Disaster Detection & Alert</h1>
+
+<div class="box">
+    <input type="text" id="city" placeholder="Enter City">
+    <button onclick="checkWeather()">Check</button>
+
+    <div id="result"></div>
+    <div id="alert"></div>
+</div>
+
+<script>
+let pyodideReady = loadPyodide();
+
+async function checkWeather() {
+
+    const city = document.getElementById("city").value;
+    const resultDiv = document.getElementById("result");
+    const alertDiv = document.getElementById("alert");
+
+    if (city === "") {
+        resultDiv.innerHTML = "⚠️ Please enter a city!";
+        return;
+    }
+
+    const pyodide = await pyodideReady;
+
+    const code = `
+import json
+from pyodide.http import open_url
+
+city = "${city}"
+api_key = "YOUR_API_KEY"
+
+url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
+
+try:
+    response = open_url(url)
+    data = json.loads(response.read())
+
+    if data["cod"] != 200:
+        result = "❌ City not found"
+        alert_msg = ""
+        alert_type = ""
+    else:
+        temp = data["main"]["temp"]
+        wind = data["wind"]["speed"]
+        weather = data["weather"][0]["main"]
+
+        result = f"""
+🌍 City: {data['name']}
+🌡️ Temp: {temp} °C
+💨 Wind: {wind} m/s
+☁️ Condition: {weather}
+"""
+
+        # Disaster Detection
+        if temp > 40:
+            alert_msg = "🔥 HEATWAVE ALERT! Stay indoors & drink water."
+            alert_type = "danger"
+
+        elif wind > 20:
+            alert_msg = "🌪️ CYCLONE WARNING! Avoid travel."
+            alert_type = "danger"
+
+        elif "rain" in weather.lower():
+            alert_msg = "🌧️ FLOOD ALERT! Heavy rain detected."
+            alert_type = "warning"
+
+        else:
+            alert_msg = "✅ Weather is normal."
+            alert_type = "safe"
+
+except:
+    result = "⚠️ Error fetching data"
+    alert_msg = ""
+    alert_type = ""
+
+(result, alert_msg, alert_type)
+`;
+
+    try {
+        let output = await pyodide.runPythonAsync(code);
+
+        let result = output[0];
+        let alertMsg = output[1];
+        let alertType = output[2];
+
+        resultDiv.innerText = result;
+
+        if (alertMsg !== "") {
+            alertDiv.innerText = alertMsg;
+            alertDiv.className = "alert-box " + alertType;
+
+            if (alertType === "danger") {
+                alert(alertMsg);
+            }
+        }
+
+    } catch {
+        resultDiv.innerHTML = "Error running Python";
+    }
+}
+</script>
+
+</body>
+</html>
